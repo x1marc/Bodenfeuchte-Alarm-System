@@ -1,4 +1,5 @@
-    # 🌱 Bodenfeuchte Alarm System
+🌱 Bodenfeuchte Alarm System
+
     **Version 5.0**
 
     Intelligente Pflanzenüberwachung – flexibel, zonenbasiert und vollständig konfigurierbar.
@@ -10,13 +11,10 @@
     Alexa-Durchsagen erfolgen nur, wenn sich eine ausgewählte **Person oder ein Device Tracker in einer frei wählbaren Zone** befindet.
 
     Die Nachtsteuerung wurde erweitert: **Getrennte Nachtmodi für Alexa, Mobile App und Anhaltende Benachrichtigung** ermöglichen maximale Flexibilität.
-
-    Neu in 5.0: **Alexa Lautstärke temporär setzen und danach wiederherstellen** (pro Gerät).
-
+    Neu: Alexa Lautstaerke kann vor der Ausgabe temporaer gesetzt und danach wiederhergestellt werden (pro Geraet).
     ---
 
-    <details>
-    <summary><b>🌵 Trocken-Alarm</b></summary>
+🌵 Trocken-Alarm
 
     - Frei definierbarer Grenzwert
     - Hysterese gegen Sensor-Flattern
@@ -25,19 +23,13 @@
     - Cooldown-Schutz gegen Mehrfachauslösung
     - Optimierung: Wiederhol-Loop „schläft“, wenn aktuell kein Kanal senden darf
 
-    </details>
-
-    <details>
-    <summary><b>🌿 OK-Rückmeldung</b></summary>
+🌿 OK-Rückmeldung
 
     - Optional aktivierbar
     - Separate Steuerung je Benachrichtigungskanal
     - Verzögerung gegen direktes Zurückspringen
 
-    </details>
-
-    <details>
-    <summary><b>🔔 Benachrichtigungskanäle</b></summary>
+🔔 Benachrichtigungskanäle
 
     - Alexa Trocken EIN/AUS
     - Alexa OK EIN/AUS
@@ -46,20 +38,13 @@
     - Mobile Trocken EIN/AUS
     - Mobile OK EIN/AUS
     - Mobile Geräteauswahl per Dropdown (mobile_app)
-
-    </details>
-
-    <details>
-    <summary><b>📍 Zonen- & Anwesenheitslogik</b></summary>
+📍 Zonen- & Anwesenheitslogik
 
     - Alexa nur bei Anwesenheit
     - Frei wählbare Zone
     - Unterstützt Person & Device Tracker
 
-    </details>
-
-    <details>
-    <summary><b>🌙 Erweiterte Nachtmodi</b></summary>
+🌙 Erweiterte Nachtmodi
 
     - Separater Nachtmodus für Alexa
     - Separater Nachtmodus für Mobile App
@@ -67,15 +52,7 @@
     - Start- und Endzeit je Kanal definierbar
     - Funktioniert über Mitternacht hinweg
 
-    </details>
-
-    <details>
-    <summary><b>🔊 Alexa Lautstärke (neu)</b></summary>
-
-    - Optional: Lautstärke vor Ausgabe setzen
-    - Danach pro Gerät wiederherstellen
-    - Funktioniert für Trocken & OK
-
-    </details>
 
     ---
+
+    **Autor x1marc**
