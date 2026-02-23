@@ -1,766 +1,617 @@
 blueprint:
-  name: "🌱 Bodenfeuchte Alarm System"
-  description: |
-    # 🌱 Bodenfeuchte Alarm System
-    **Version 5.0**
-
-    Intelligente Pflanzenüberwachung – flexibel, zonenbasiert und vollständig konfigurierbar.
-
-    Überwacht einen Bodenfeuchte-Sensor (numerisch). Bei Unterschreiten eines Grenzwerts wird (optional wiederholt) per **Alexa (notify.alexa_media)**, **Anhaltende Benachrichtigung** und/oder **Mobile App** benachrichtigt.
-
-    Optional kann eine **„Feuchtigkeit wieder OK“-Info** gesendet werden, sobald der Wert stabil über dem Grenzwert liegt.
-
-    Alexa-Durchsagen erfolgen nur, wenn sich eine ausgewählte **Person oder ein Device Tracker in einer frei wählbaren Zone** befindet.
-
-    Die Nachtsteuerung wurde erweitert: **Getrennte Nachtmodi für Alexa, Mobile App und Anhaltende Benachrichtigung** ermöglichen maximale Flexibilität.
-    Neu: Alexa Lautstaerke kann vor der Ausgabe temporaer gesetzt und danach wiederhergestellt werden (pro Geraet).
-    ---
-
-    <details>
-    <summary><b>🌵 Trocken-Alarm</b></summary>
-
-    - Frei definierbarer Grenzwert
-    - Hysterese gegen Sensor-Flattern
-    - Verzögerung vor Auslösung
-    - Wiederholung optional (5–180 Minuten)
-    - Cooldown-Schutz gegen Mehrfachauslösung
-    - Optimierung: Wiederhol-Loop „schläft“, wenn aktuell kein Kanal senden darf
-
-    </details>
-
-    <details>
-    <summary><b>🌿 OK-Rückmeldung</b></summary>
-
-    - Optional aktivierbar
-    - Separate Steuerung je Benachrichtigungskanal
-    - Verzögerung gegen direktes Zurückspringen
-
-    </details>
-
-    <details>
-    <summary><b>🔔 Benachrichtigungskanäle</b></summary>
-
-    - Alexa Trocken EIN/AUS
-    - Alexa OK EIN/AUS
-    - Anhaltende Benachrichtigung Trocken EIN/AUS
-    - Anhaltende Benachrichtigung OK EIN/AUS
-    - Mobile Trocken EIN/AUS
-    - Mobile OK EIN/AUS
-    - Mobile Geräteauswahl per Dropdown (mobile_app)
-
-    </details>
-
-    <details>
-    <summary><b>📍 Zonen- & Anwesenheitslogik</b></summary>
-
-    - Alexa nur bei Anwesenheit
-    - Frei wählbare Zone
-    - Unterstützt Person & Device Tracker
-
-    </details>
-
-    <details>
-    <summary><b>🌙 Erweiterte Nachtmodi</b></summary>
-
-    - Separater Nachtmodus für Alexa
-    - Separater Nachtmodus für Mobile App
-    - Separater Nachtmodus für Anhaltende Benachrichtigung
-    - Start- und Endzeit je Kanal definierbar
-    - Funktioniert über Mitternacht hinweg
-
-    </details>
-
-    ---
-
-    **Autor x1marc**
+  name: "\U0001F331 Bodenfeuchte Alarm System"
+  description: "# \U0001F331 Bodenfeuchte Alarm System\n**Version 5.0**\n\nIntelligente
+    Pflanzenüberwachung – flexibel, zonenbasiert und vollständig konfigurierbar.\n\nÜberwacht
+    einen Bodenfeuchte-Sensor (numerisch). Bei Unterschreiten eines Grenzwerts wird
+    (optional wiederholt) per **Alexa (notify.alexa_media)**, **Anhaltende Benachrichtigung**
+    und/oder **Mobile App** benachrichtigt.\n\nOptional kann eine **„Feuchtigkeit
+    wieder OK“-Info** gesendet werden, sobald der Wert stabil über dem Grenzwert liegt.\n\nAlexa-Durchsagen
+    erfolgen nur, wenn sich eine ausgewählte **Person oder ein Device Tracker in einer
+    frei wählbaren Zone** befindet.\n\nDie Nachtsteuerung wurde erweitert: **Getrennte
+    Nachtmodi für Alexa, Mobile App und Anhaltende Benachrichtigung** ermöglichen
+    maximale Flexibilität.\nNeu: Alexa Lautstärke kann vor der Ausgabe temporär
+    gesetzt und danach wiederhergestellt werden (pro Gerät).\n---\n\n<details>\n<summary><b>\U0001F335
+    Trocken-Alarm</b></summary>\n\n- Frei definierbarer Grenzwert\n- Hysterese gegen
+    Sensor-Flattern\n- Verzögerung vor Auslösung\n- Wiederholung optional (5–180 Minuten)\n-
+    Cooldown-Schutz gegen Mehrfachauslösung\n- Optimierung: Wiederhol-Loop „schläft“,
+    wenn aktuell kein Kanal senden darf\n\n</details>\n\n<details>\n<summary><b>\U0001F33F
+    OK-Rückmeldung</b></summary>\n\n- Optional aktivierbar\n- Separate Steuerung je
+    Benachrichtigungskanal\n- Verzögerung gegen direktes Zurückspringen\n\n</details>\n\n<details>\n<summary><b>\U0001F514
+    Benachrichtigungskanäle</b></summary>\n\n- Alexa Trocken EIN/AUS\n- Alexa OK EIN/AUS\n-
+    Anhaltende Benachrichtigung Trocken EIN/AUS\n- Anhaltende Benachrichtigung OK
+    EIN/AUS\n- Mobile Trocken EIN/AUS\n- Mobile OK EIN/AUS\n- Mobile Geräteauswahl
+    per Dropdown (mobile_app)\n\n</details>\n\n<details>\n<summary><b>\U0001F4CD Zonen-
+    & Anwesenheitslogik</b></summary>\n\n- Alexa nur bei Anwesenheit\n- Frei wählbare
+    Zone\n- Unterstützt Person & Device Tracker\n\n</details>\n\n<details>\n<summary><b>\U0001F319
+    Erweiterte Nachtmodi</b></summary>\n\n- Separater Nachtmodus für Alexa\n- Separater
+    Nachtmodus für Mobile App\n- Separater Nachtmodus für Anhaltende Benachrichtigung\n-
+    Start- und Endzeit je Kanal definierbar\n- Funktioniert über Mitternacht hinweg\n\n</details>\n\n---\n\n**Autor
+    x1marc**\n"
   domain: automation
-
   input:
-    # =========================
-    # 1) SENSOR & SCHWELLWERTE
-    # =========================
     moisture_sensor:
-      name: "Bodenfeuchte-Sensor"
+      name: Bodenfeuchte-Sensor
       selector:
         entity:
-          domain: sensor
-
+          domain:
+          - sensor
+          multiple: false
+          reorder: false
     threshold_low:
-      name: "Grenzwert (zu trocken)"
-      description: "Unterhalb dieses Wertes wird ein Trocken-Alarm ausgeloest."
+      name: Grenzwert (zu trocken)
+      description: Unterhalb dieses Wertes wird ein Trocken-Alarm ausgelöst.
       default: 50
       selector:
         number:
-          min: 0
-          max: 100
-          step: 1
+          min: 0.0
+          max: 100.0
+          step: 1.0
           mode: slider
-          unit_of_measurement: "%"
-
+          unit_of_measurement: '%'
     hysteresis:
-      name: "Hysterese (OK ab Grenzwert + Hysterese)"
+      name: Hysterese (OK ab Grenzwert + Hysterese)
       default: 3
       selector:
         number:
-          min: 0
-          max: 20
-          step: 1
-          unit_of_measurement: "%"
-
-    # =========================
-    # 2) ZEITEN / LOGIK
-    # =========================
+          min: 0.0
+          max: 20.0
+          step: 1.0
+          unit_of_measurement: '%'
+          mode: slider
     below_for:
-      name: "Muss wie lange trocken sein, bevor Alarm?"
+      name: Muss wie lange trocken sein, bevor Alarm?
       default:
         minutes: 5
       selector:
         duration: {}
-
     ok_for:
-      name: "Muss wie lange OK sein, bevor OK-Info?"
+      name: Muss wie lange OK sein, bevor OK-Info?
       default:
         minutes: 2
       selector:
         duration: {}
-
     repeat_mode:
-      name: "Trocken-Alarm senden"
-      default: "repeat"
+      name: Trocken-Alarm senden
+      default: repeat
       selector:
         select:
           options:
-            - label: "Nur einmal"
-              value: "once"
-            - label: "Wiederholen"
-              value: "repeat"
-
+          - label: Nur einmal
+            value: once
+          - label: Wiederholen
+            value: repeat
+          multiple: false
+          sort: false
+          custom_value: false
     repeat_interval:
-      name: "Wiederholintervall (nur bei 'Wiederholen')"
+      name: Wiederholintervall (nur bei 'Wiederholen')
       default: 30
       selector:
         number:
-          min: 5
-          max: 180
-          step: 2
-          unit_of_measurement: "min"
-
+          min: 5.0
+          max: 180.0
+          step: 2.0
+          unit_of_measurement: min
+          mode: slider
     cooldown_minutes:
-      name: "Cooldown / Sperrzeit (Minuten)"
-      description: "Verhindert erneutes Ausloesen kurz hintereinander. Gilt nur fuer Trocken-Alarm."
+      name: Cooldown / Sperrzeit (Minuten)
+      description: Verhindert erneutes Auslösen kurz hintereinander. Gilt nur fuer
+        Trocken-Alarm.
       default: 30
       selector:
         number:
-          min: 0
-          max: 360
-          step: 2
-          unit_of_measurement: "min"
-
-    # =========================
-    # 3) TEXTE
-    # =========================
+          min: 0.0
+          max: 360.0
+          step: 2.0
+          unit_of_measurement: min
+          mode: slider
     title_dry:
-      name: "Titel (Trocken) - Mobile/Persistent"
-      default: "🌱 Bodenfeuchte Warnung"
+      name: Titel (Trocken) - Mobile/Persistent
+      default: "\U0001F331 Bodenfeuchte Warnung"
       selector:
-        text: {}
-
+        text:
+          multiline: false
+          multiple: false
     message_prefix_dry:
-      name: "Nachricht (Trocken) - Mobile/Persistent"
-      default: "Die Pflanze ist zu trocken."
+      name: Nachricht (Trocken) - Mobile/Persistent
+      default: Die Pflanze ist zu trocken.
       selector:
-        text: {}
-
+        text:
+          multiline: false
+          multiple: false
     alexa_message_dry:
-      name: "Alexa Nachricht (Trocken)"
-      default: "Achtung: Die Pflanze braucht Wasser."
+      name: Alexa Nachricht (Trocken)
+      default: 'Achtung: Die Pflanze braucht Wasser.'
       selector:
-        text: {}
-
+        text:
+          multiline: false
+          multiple: false
     ok_info_enabled:
-      name: '"Wieder OK"-Info aktiv?'
+      name: '"Wieder OK"-Info aktiv? (globaler Master-Schalter)'
       default: true
       selector:
         boolean: {}
-
     title_ok:
-      name: "Titel (OK) - Mobile/Persistent"
-      default: "🌿 Bodenfeuchte wieder OK"
+      name: Titel (OK) - Mobile/Persistent
+      default: "\U0001F33F Bodenfeuchte wieder OK"
       selector:
-        text: {}
-
+        text:
+          multiline: false
+          multiple: false
     message_prefix_ok:
-      name: "Nachricht (OK) - Mobile/Persistent"
-      default: "Danke! Die Feuchtigkeit ist wieder im gruenen Bereich."
+      name: Nachricht (OK) - Mobile/Persistent
+      default: Danke! Die Feuchtigkeit ist wieder im gruenen Bereich.
       selector:
-        text: {}
-
+        text:
+          multiline: false
+          multiple: false
     alexa_message_ok:
-      name: "Alexa Nachricht (OK)"
-      default: "Alles gut: Die Bodenfeuchte ist wieder okay."
+      name: Alexa Nachricht (OK)
+      default: 'Alles gut: Die Bodenfeuchte ist wieder okay.'
       selector:
-        text: {}
-
-    # =========================
-    # 4) ALEXA + ZONE
-    # =========================
+        text:
+          multiline: false
+          multiple: false
     alexa_enabled_dry:
-      name: "Alexa Trocken-Alarm aktiv?"
+      name: Alexa Trocken-Alarm aktiv?
       default: true
       selector:
         boolean: {}
-
     alexa_enabled_ok:
-      name: "Alexa OK-Info aktiv?"
+      name: Alexa OK-Info aktiv?
       default: true
       selector:
         boolean: {}
-
     alexa_targets:
-      name: "Alexa Zielgeraete (media_player)"
-      selector:
-        entity:
-          domain: media_player
-          multiple: true
-
-    presence_entity:
-      name: "Person oder Device Tracker (fuer Zonenpruefung)"
+      name: Alexa Zielgeräte
       selector:
         entity:
           domain:
-            - person
-            - device_tracker
-
-    presence_zone:
-      name: "Zone fuer Alexa-Ausgabe"
-      default: "zone.home"
+          - media_player
+          multiple: true
+          reorder: false
+    presence_entity:
+      name: Person oder Device Tracker (fuer Zonenpruefung)
       selector:
         entity:
-          domain: zone
-
-    # =========================
-    # 4.1) ALEXA LAUTSTAERKE
-    # =========================
+          domain:
+          - person
+          - device_tracker
+          multiple: false
+          reorder: false
+    presence_zone:
+      name: Zone fuer Alexa-Ausgabe
+      default: zone.home
+      selector:
+        entity:
+          domain:
+          - zone
+          multiple: false
+          reorder: false
     alexa_volume_temp_enabled:
-      name: "Alexa Lautstaerke temporaer setzen?"
-      description: "Setzt die Lautstaerke vor der Durchsage und stellt sie danach wieder her (pro Geraet)."
+      name: Alexa Lautstärke temporär setzen?
+      description: Setzt die Lautstärke vor der Durchsage und stellt sie danach wieder
+        her (pro Gerät).
       default: false
       selector:
         boolean: {}
-
     alexa_volume_level:
-      name: "Alexa Lautstaerke (0.0 - 1.0)"
-      description: "Beispiel: 0.35 = 35% Lautstaerke"
-      default: 0.35
+      name: Alexa Lautstärke (0.0 - 1.0)
+      description: 'Beispiel: 0.50 = 50% Lautstärke'
+      default: 0.50
       selector:
         number:
           min: 0.0
           max: 1.0
           step: 0.05
           mode: slider
-
     alexa_volume_restore_delay:
-      name: "Wartezeit bis Restore (Sekunden)"
-      description: "Kurze Verzoegerung, damit die Durchsage nicht abgeschnitten wird."
+      name: Wartezeit bis Restore (Sekunden)
+      description: Kurze Verzögerung, damit die Durchsage nicht abgeschnitten wird.
       default: 2
       selector:
         number:
-          min: 0
-          max: 30
-          step: 1
+          min: 0.0
+          max: 30.0
+          step: 1.0
           mode: slider
-          unit_of_measurement: "s"
-
-    # =========================
-    # 5) PERSISTENT
-    # =========================
+          unit_of_measurement: s
     persistent_enabled_dry:
-      name: "Anhaltende Benachrichtigung (Trocken) aktiv?"
+      name: Anhaltende Benachrichtigung (Trocken) aktiv?
       default: true
       selector:
         boolean: {}
-
     persistent_enabled_ok:
-      name: "Anhaltende Benachrichtigung (OK) aktiv?"
+      name: Anhaltende Benachrichtigung (OK) aktiv?
       default: true
       selector:
         boolean: {}
-
-    # =========================
-    # 6) MOBILE
-    # =========================
     mobile_enabled_dry:
-      name: "Mobile Benachrichtigung (Trocken) aktiv?"
+      name: Mobile Benachrichtigung (Trocken) aktiv?
       default: false
       selector:
         boolean: {}
-
     mobile_enabled_ok:
-      name: "Mobile Benachrichtigung (OK) aktiv?"
+      name: Mobile Benachrichtigung (OK) aktiv?
       default: false
       selector:
         boolean: {}
-
     mobile_device:
-      name: "Mobile Geraet (Dropdown)"
-      description: "Geraet aus der Home Assistant Mobile App Integration (mobile_app)."
+      name: Mobile Gerät (Dropdown)
+      description: Gerät aus der Home Assistant Mobile App Integration (mobile_app).
       selector:
         device:
           integration: mobile_app
           multiple: false
-
-    # =========================
-    # 7) NACHTMODUS JE KANAL
-    # =========================
     alexa_quiet_enabled:
-      name: "Nachtmodus Alexa aktiv?"
+      name: Nachtmodus Alexa aktiv?
       default: true
       selector:
         boolean: {}
-
     alexa_quiet_start:
-      name: "Nachtmodus Alexa Start"
-      default: "20:00:00"
+      name: Nachtmodus Alexa Start
+      default: '20:00:00'
       selector:
         time: {}
-
     alexa_quiet_end:
-      name: "Nachtmodus Alexa Ende"
-      default: "08:00:00"
+      name: Nachtmodus Alexa Ende
+      default: 08:00:00
       selector:
         time: {}
-
     mobile_quiet_enabled:
-      name: "Nachtmodus Mobile aktiv?"
+      name: Nachtmodus Mobile aktiv?
       default: false
       selector:
         boolean: {}
-
     mobile_quiet_start:
-      name: "Nachtmodus Mobile Start"
-      default: "22:00:00"
+      name: Nachtmodus Mobile Start
+      default: '22:00:00'
       selector:
         time: {}
-
     mobile_quiet_end:
-      name: "Nachtmodus Mobile Ende"
-      default: "07:00:00"
+      name: Nachtmodus Mobile Ende
+      default: 07:00:00
       selector:
         time: {}
-
     persistent_quiet_enabled:
-      name: "Nachtmodus Persistent aktiv?"
+      name: Nachtmodus Persistent aktiv?
       default: false
       selector:
         boolean: {}
-
     persistent_quiet_start:
-      name: "Nachtmodus Persistent Start"
-      default: "22:00:00"
+      name: Nachtmodus Persistent Start
+      default: '22:00:00'
       selector:
         time: {}
-
     persistent_quiet_end:
-      name: "Nachtmodus Persistent Ende"
-      default: "07:00:00"
+      name: Nachtmodus Persistent Ende
+      default: 07:00:00
       selector:
         time: {}
-
+  source_url: https://github.com/x1marc/Bodenfeuchte-Alarm-System/blob/main/Bodenfeuchte_V5.yaml
 mode: single
 max_exceeded: silent
-
 variables:
   sensor: !input moisture_sensor
   thr: !input threshold_low
   hyst: !input hysteresis
-  thr_ok: "{{ (thr | float(0)) + (hyst | float(0)) }}"
-
+  thr_ok: '{{ (thr | float(0)) + (hyst | float(0)) }}'
   repeat_mode: !input repeat_mode
   repeat_interval: !input repeat_interval
   cooldown_minutes: !input cooldown_minutes
-
   title_dry: !input title_dry
   message_prefix_dry: !input message_prefix_dry
   alexa_message_dry: !input alexa_message_dry
-
   ok_info_enabled: !input ok_info_enabled
   title_ok: !input title_ok
   message_prefix_ok: !input message_prefix_ok
   alexa_message_ok: !input alexa_message_ok
-
   alexa_enabled_dry: !input alexa_enabled_dry
   alexa_enabled_ok: !input alexa_enabled_ok
   persistent_enabled_dry: !input persistent_enabled_dry
   persistent_enabled_ok: !input persistent_enabled_ok
   mobile_enabled_dry: !input mobile_enabled_dry
   mobile_enabled_ok: !input mobile_enabled_ok
-
   alexa_targets: !input alexa_targets
   presence_entity: !input presence_entity
   presence_zone: !input presence_zone
-
   alexa_volume_temp_enabled: !input alexa_volume_temp_enabled
   alexa_volume_level: !input alexa_volume_level
   alexa_volume_restore_delay: !input alexa_volume_restore_delay
-
   mobile_device: !input mobile_device
-
   alexa_quiet_enabled: !input alexa_quiet_enabled
   alexa_quiet_start: !input alexa_quiet_start
   alexa_quiet_end: !input alexa_quiet_end
-
   mobile_quiet_enabled: !input mobile_quiet_enabled
   mobile_quiet_start: !input mobile_quiet_start
   mobile_quiet_end: !input mobile_quiet_end
-
   persistent_quiet_enabled: !input persistent_quiet_enabled
   persistent_quiet_start: !input persistent_quiet_start
   persistent_quiet_end: !input persistent_quiet_end
-
-  sensor_name: "{{ state_attr(sensor, 'friendly_name') or sensor }}"
-  sensor_value: "{{ states(sensor) | float(0) }}"
-
-  msg_dry_common: >-
-    {{ message_prefix_dry }}
-    Sensor: {{ sensor_name }} = {{ sensor_value }} (Grenzwert < {{ thr }}, OK ab {{ thr_ok }})
-
-  msg_ok_common: >-
-    {{ message_prefix_ok }}
-    Sensor: {{ sensor_name }} = {{ sensor_value }} (OK ab {{ thr_ok }})
-
-  msg_dry_alexa: >-
-    {{ alexa_message_dry }} ({{ sensor_name }}: {{ sensor_value }})
-
-  msg_ok_alexa: >-
-    {{ alexa_message_ok }} ({{ sensor_name }}: {{ sensor_value }})
-
-  mobile_notify_service: >-
-    {% set dev_name = device_attr(mobile_device, 'name') %}
-    {% if dev_name %}
-      notify.mobile_app_{{ dev_name | slugify }}
-    {% else %}
-      none
-    {% endif %}
-
-  zone_slug: "{{ presence_zone.split('.')[-1] }}"
-  person_in_zone: "{{ states(presence_entity) == zone_slug }}"
-
-  cooldown_ok: >-
-    {% if cooldown_minutes | int(0) == 0 %}
-      true
-    {% else %}
-      {% set lt = this.attributes.last_triggered %}
-      {% if lt is none %}
-        true
-      {% else %}
-        {{ (now() - lt).total_seconds() > (cooldown_minutes | int(0) * 60) }}
-      {% endif %}
-    {% endif %}
-
-  in_quiet_alexa: >-
-    {% if not alexa_quiet_enabled %}
-      false
-    {% else %}
-      {% set s = today_at(alexa_quiet_start) %}
-      {% set e = today_at(alexa_quiet_end) %}
-      {% if e <= s %}
-        {{ now() >= s or now() < e }}
-      {% else %}
-        {{ now() >= s and now() < e }}
-      {% endif %}
-    {% endif %}
-
-  in_quiet_mobile: >-
-    {% if not mobile_quiet_enabled %}
-      false
-    {% else %}
-      {% set s = today_at(mobile_quiet_start) %}
-      {% set e = today_at(mobile_quiet_end) %}
-      {% if e <= s %}
-        {{ now() >= s or now() < e }}
-      {% else %}
-        {{ now() >= s and now() < e }}
-      {% endif %}
-    {% endif %}
-
-  in_quiet_persistent: >-
-    {% if not persistent_quiet_enabled %}
-      false
-    {% else %}
-      {% set s = today_at(persistent_quiet_start) %}
-      {% set e = today_at(persistent_quiet_end) %}
-      {% if e <= s %}
-        {{ now() >= s or now() < e }}
-      {% else %}
-        {{ now() >= s and now() < e }}
-      {% endif %}
-    {% endif %}
-
-  any_dry_channel_enabled: >-
-    {{
-      (alexa_enabled_dry | bool)
-      or (persistent_enabled_dry | bool)
-      or (mobile_enabled_dry | bool)
-    }}
-
-  can_send_dry_now: >-
-    {{
-      (alexa_enabled_dry and person_in_zone and not (in_quiet_alexa | bool))
-      or (persistent_enabled_dry and not (in_quiet_persistent | bool))
-      or (mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile | bool))
-    }}
-
+  sensor_name: '{{ state_attr(sensor, ''friendly_name'') or sensor }}'
+  sensor_value: '{{ states(sensor) | float(0) }}'
+  msg_dry_common: '{{ message_prefix_dry }} Sensor: {{ sensor_name }} = {{ sensor_value
+    }} (Grenzwert < {{ thr }}, OK ab {{ thr_ok }})'
+  msg_ok_common: '{{ message_prefix_ok }} Sensor: {{ sensor_name }} = {{ sensor_value
+    }} (OK ab {{ thr_ok }})'
+  msg_dry_alexa: '{{ alexa_message_dry }} ({{ sensor_name }}: {{ sensor_value }})'
+  msg_ok_alexa: '{{ alexa_message_ok }} ({{ sensor_name }}: {{ sensor_value }})'
+  mobile_notify_service: "{% set dev_name = device_attr(mobile_device, 'name') %}
+    {% if dev_name %}\n  notify.mobile_app_{{ dev_name | slugify }}\n{% else %}\n
+    \ none\n{% endif %}"
+  zone_slug: '{{ presence_zone.split(''.'')[-1] }}'
+  person_in_zone: '{{ states(presence_entity) == zone_slug }}'
+  cooldown_ok: "{% if cooldown_minutes | int(0) == 0 %}\n  true\n{% else %}\n  {%
+    set lt = this.attributes.last_triggered %}\n  {% if lt is none %}\n    true\n
+    \ {% else %}\n    {{ (now() - lt).total_seconds() > (cooldown_minutes | int(0)
+    * 60) }}\n  {% endif %}\n{% endif %}"
+  in_quiet_alexa: "{% if not alexa_quiet_enabled %}\n  false\n{% else %}\n  {% set
+    s = today_at(alexa_quiet_start) %}\n  {% set e = today_at(alexa_quiet_end) %}\n
+    \ {% if e <= s %}\n    {{ now() >= s or now() < e }}\n  {% else %}\n    {{ now()
+    >= s and now() < e }}\n  {% endif %}\n{% endif %}"
+  in_quiet_mobile: "{% if not mobile_quiet_enabled %}\n  false\n{% else %}\n  {% set
+    s = today_at(mobile_quiet_start) %}\n  {% set e = today_at(mobile_quiet_end) %}\n
+    \ {% if e <= s %}\n    {{ now() >= s or now() < e }}\n  {% else %}\n    {{ now()
+    >= s and now() < e }}\n  {% endif %}\n{% endif %}"
+  in_quiet_persistent: "{% if not persistent_quiet_enabled %}\n  false\n{% else %}\n
+    \ {% set s = today_at(persistent_quiet_start) %}\n  {% set e = today_at(persistent_quiet_end)
+    %}\n  {% if e <= s %}\n    {{ now() >= s or now() < e }}\n  {% else %}\n    {{
+    now() >= s and now() < e }}\n  {% endif %}\n{% endif %}"
+  any_dry_channel_enabled: "{{\n  (alexa_enabled_dry | bool)\n  or (persistent_enabled_dry
+    | bool)\n  or (mobile_enabled_dry | bool)\n}}"
+  can_send_dry_now: "{{\n  (alexa_enabled_dry and person_in_zone and not (in_quiet_alexa
+    | bool))\n  or (persistent_enabled_dry and not (in_quiet_persistent | bool))\n
+    \ or (mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile
+    | bool))\n}}"
 trigger:
-  - platform: template
-    id: dry
-    value_template: "{{ states(sensor) | float(999) < (thr | float(0)) }}"
-    for: !input below_for
-
-  - platform: template
-    id: ok
-    value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
-    for: !input ok_for
-
+- platform: template
+  id: dry
+  value_template: '{{ states(sensor) | float(999) < (thr | float(0)) }}'
+  for: !input below_for
+- platform: template
+  id: ok
+  value_template: '{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}'
+  for: !input ok_for
 condition: []
-
 action:
-  - choose:
+- choose:
+  - conditions:
+    - condition: trigger
+      id: dry
+    sequence:
+    - condition: template
+      value_template: '{{ cooldown_ok | bool }}'
+    - choose:
       - conditions:
-          - condition: trigger
-            id: dry
+        - condition: template
+          value_template: '{{ repeat_mode == ''once'' }}'
         sequence:
-          - condition: template
-            value_template: "{{ cooldown_ok | bool }}"
-
-          - choose:
-              - conditions:
-                  - condition: template
-                    value_template: "{{ repeat_mode == 'once' }}"
+        - choose:
+          - conditions:
+            - condition: template
+              value_template: '{{ alexa_enabled_dry and person_in_zone and not (in_quiet_alexa
+                | bool) }}'
+            sequence:
+            - repeat:
+                for_each: '{{ alexa_targets }}'
                 sequence:
-                  - choose:
-                      - conditions:
-                          - condition: template
-                            value_template: "{{ alexa_enabled_dry and person_in_zone and not (in_quiet_alexa | bool) }}"
-                        sequence:
-                          - repeat:
-                              for_each: "{{ alexa_targets }}"
-                              sequence:
-                                - variables:
-                                    _player: "{{ repeat.item }}"
-                                    _prev_vol: "{{ state_attr(_player, 'volume_level') | float(0.3) }}"
-                                - choose:
-                                    - conditions:
-                                        - condition: template
-                                          value_template: "{{ alexa_volume_temp_enabled | bool }}"
-                                      sequence:
-                                        - service: media_player.volume_set
-                                          data:
-                                            entity_id: "{{ _player }}"
-                                            volume_level: "{{ alexa_volume_level | float(0.35) }}"
-                                - service: notify.alexa_media
-                                  data:
-                                    title: "{{ title_dry }}"
-                                    message: "{{ msg_dry_alexa }}"
-                                    target:
-                                      - "{{ _player }}"
-                                - choose:
-                                    - conditions:
-                                        - condition: template
-                                          value_template: "{{ alexa_volume_temp_enabled | bool }}"
-                                      sequence:
-                                        - delay:
-                                            seconds: "{{ alexa_volume_restore_delay | int(2) }}"
-                                        - service: media_player.volume_set
-                                          data:
-                                            entity_id: "{{ _player }}"
-                                            volume_level: "{{ _prev_vol }}"
-
-                  - choose:
-                      - conditions:
-                          - condition: template
-                            value_template: "{{ persistent_enabled_dry and not (in_quiet_persistent | bool) }}"
-                        sequence:
-                          - service: persistent_notification.create
-                            data:
-                              title: "{{ title_dry }}"
-                              message: "{{ msg_dry_common }}"
-
-                  - choose:
-                      - conditions:
-                          - condition: template
-                            value_template: "{{ mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile | bool) }}"
-                        sequence:
-                          - service: "{{ mobile_notify_service }}"
-                            data:
-                              title: "{{ title_dry }}"
-                              message: "{{ msg_dry_common }}"
-
-                  - wait_for_trigger:
-                      - platform: template
-                        value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
-                    timeout:
-                      hours: 24
-                    continue_on_timeout: true
-
-              - conditions:
-                  - condition: template
-                    value_template: "{{ repeat_mode == 'repeat' }}"
-                sequence:
-                  - repeat:
-                      while:
-                        - condition: template
-                          value_template: "{{ states(sensor) | float(999) < (thr | float(0)) }}"
-                      sequence:
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ not (any_dry_channel_enabled | bool) }}"
-                              sequence:
-                                - wait_for_trigger:
-                                    - platform: template
-                                      value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
-                                  timeout:
-                                    hours: 12
-                                  continue_on_timeout: true
-
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ (any_dry_channel_enabled | bool) and not (can_send_dry_now | bool) }}"
-                              sequence:
-                                - wait_for_trigger:
-                                    - platform: template
-                                      value_template: "{{ can_send_dry_now | bool }}"
-                                    - platform: template
-                                      value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
-                                  timeout:
-                                    hours: 12
-                                  continue_on_timeout: true
-
-                        - condition: template
-                          value_template: "{{ states(sensor) | float(999) < (thr | float(0)) }}"
-
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ alexa_enabled_dry and person_in_zone and not (in_quiet_alexa | bool) }}"
-                              sequence:
-                                - repeat:
-                                    for_each: "{{ alexa_targets }}"
-                                    sequence:
-                                      - variables:
-                                          _player: "{{ repeat.item }}"
-                                          _prev_vol: "{{ state_attr(_player, 'volume_level') | float(0.3) }}"
-                                      - choose:
-                                          - conditions:
-                                              - condition: template
-                                                value_template: "{{ alexa_volume_temp_enabled | bool }}"
-                                            sequence:
-                                              - service: media_player.volume_set
-                                                data:
-                                                  entity_id: "{{ _player }}"
-                                                  volume_level: "{{ alexa_volume_level | float(0.35) }}"
-                                      - service: notify.alexa_media
-                                        data:
-                                          title: "{{ title_dry }}"
-                                          message: "{{ msg_dry_alexa }}"
-                                          target:
-                                            - "{{ _player }}"
-                                      - choose:
-                                          - conditions:
-                                              - condition: template
-                                                value_template: "{{ alexa_volume_temp_enabled | bool }}"
-                                            sequence:
-                                              - delay:
-                                                  seconds: "{{ alexa_volume_restore_delay | int(2) }}"
-                                              - service: media_player.volume_set
-                                                data:
-                                                  entity_id: "{{ _player }}"
-                                                  volume_level: "{{ _prev_vol }}"
-
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ persistent_enabled_dry and not (in_quiet_persistent | bool) }}"
-                              sequence:
-                                - service: persistent_notification.create
-                                  data:
-                                    title: "{{ title_dry }}"
-                                    message: "{{ msg_dry_common }}"
-
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile | bool) }}"
-                              sequence:
-                                - service: "{{ mobile_notify_service }}"
-                                  data:
-                                    title: "{{ title_dry }}"
-                                    message: "{{ msg_dry_common }}"
-
-                        - delay:
-                            minutes: "{{ repeat_interval | int(30) }}"
-
+                - variables:
+                    _player: '{{ repeat.item }}'
+                    _prev_vol: '{{ state_attr(_player, ''volume_level'') | float(0.3)
+                      }}'
+                - choose:
+                  - conditions:
+                    - condition: template
+                      value_template: '{{ alexa_volume_temp_enabled | bool }}'
+                    sequence:
+                    - service: media_player.volume_set
+                      data:
+                        entity_id: '{{ _player }}'
+                        volume_level: '{{ alexa_volume_level | float(0.35) }}'
+                - service: notify.alexa_media
+                  data:
+                    title: '{{ title_dry }}'
+                    message: '{{ msg_dry_alexa }}'
+                    target:
+                    - '{{ _player }}'
+                - choose:
+                  - conditions:
+                    - condition: template
+                      value_template: '{{ alexa_volume_temp_enabled | bool }}'
+                    sequence:
+                    - delay:
+                        seconds: '{{ alexa_volume_restore_delay | int(2) }}'
+                    - service: media_player.volume_set
+                      data:
+                        entity_id: '{{ _player }}'
+                        volume_level: '{{ _prev_vol }}'
+        - choose:
+          - conditions:
+            - condition: template
+              value_template: '{{ persistent_enabled_dry and not (in_quiet_persistent
+                | bool) }}'
+            sequence:
+            - service: persistent_notification.create
+              data:
+                title: '{{ title_dry }}'
+                message: '{{ msg_dry_common }}'
+        - choose:
+          - conditions:
+            - condition: template
+              value_template: '{{ mobile_enabled_dry and mobile_notify_service !=
+                ''none'' and not (in_quiet_mobile | bool) }}'
+            sequence:
+            - service: '{{ mobile_notify_service }}'
+              data:
+                title: '{{ title_dry }}'
+                message: '{{ msg_dry_common }}'
+        - wait_for_trigger:
+          - platform: template
+            value_template: '{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}'
+          timeout:
+            hours: 24
+          continue_on_timeout: true
       - conditions:
-          - condition: trigger
-            id: ok
-          - condition: template
-            value_template: "{{ ok_info_enabled }}"
+        - condition: template
+          value_template: '{{ repeat_mode == ''repeat'' }}'
         sequence:
-          - choose:
+        - repeat:
+            while:
+            - condition: template
+              value_template: '{{ states(sensor) | float(999) < (thr | float(0)) }}'
+            sequence:
+            - choose:
               - conditions:
-                  - condition: template
-                    value_template: "{{ alexa_enabled_ok and person_in_zone and not (in_quiet_alexa | bool) }}"
+                - condition: template
+                  value_template: '{{ not (any_dry_channel_enabled | bool) }}'
                 sequence:
-                  - repeat:
-                      for_each: "{{ alexa_targets }}"
-                      sequence:
-                        - variables:
-                            _player: "{{ repeat.item }}"
-                            _prev_vol: "{{ state_attr(_player, 'volume_level') | float(0.3) }}"
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ alexa_volume_temp_enabled | bool }}"
-                              sequence:
-                                - service: media_player.volume_set
-                                  data:
-                                    entity_id: "{{ _player }}"
-                                    volume_level: "{{ alexa_volume_level | float(0.35) }}"
-                        - service: notify.alexa_media
+                - wait_for_trigger:
+                  - platform: template
+                    value_template: '{{ states(sensor) | float(0) >= (thr_ok | float(0))
+                      }}'
+                  timeout:
+                    hours: 12
+                  continue_on_timeout: true
+            - choose:
+              - conditions:
+                - condition: template
+                  value_template: '{{ (any_dry_channel_enabled | bool) and not (can_send_dry_now
+                    | bool) }}'
+                sequence:
+                - wait_for_trigger:
+                  - platform: template
+                    value_template: '{{ can_send_dry_now | bool }}'
+                  - platform: template
+                    value_template: '{{ states(sensor) | float(0) >= (thr_ok | float(0))
+                      }}'
+                  timeout:
+                    hours: 12
+                  continue_on_timeout: true
+            - condition: template
+              value_template: '{{ states(sensor) | float(999) < (thr | float(0)) }}'
+            - choose:
+              - conditions:
+                - condition: template
+                  value_template: '{{ alexa_enabled_dry and person_in_zone and not
+                    (in_quiet_alexa | bool) }}'
+                sequence:
+                - repeat:
+                    for_each: '{{ alexa_targets }}'
+                    sequence:
+                    - variables:
+                        _player: '{{ repeat.item }}'
+                        _prev_vol: '{{ state_attr(_player, ''volume_level'') | float(0.3)
+                          }}'
+                    - choose:
+                      - conditions:
+                        - condition: template
+                          value_template: '{{ alexa_volume_temp_enabled | bool }}'
+                        sequence:
+                        - service: media_player.volume_set
                           data:
-                            title: "{{ title_ok }}"
-                            message: "{{ msg_ok_alexa }}"
-                            target:
-                              - "{{ _player }}"
-                        - choose:
-                            - conditions:
-                                - condition: template
-                                  value_template: "{{ alexa_volume_temp_enabled | bool }}"
-                              sequence:
-                                - delay:
-                                    seconds: "{{ alexa_volume_restore_delay | int(2) }}"
-                                - service: media_player.volume_set
-                                  data:
-                                    entity_id: "{{ _player }}"
-                                    volume_level: "{{ _prev_vol }}"
-
-          - choose:
+                            entity_id: '{{ _player }}'
+                            volume_level: '{{ alexa_volume_level | float(0.35) }}'
+                    - service: notify.alexa_media
+                      data:
+                        title: '{{ title_dry }}'
+                        message: '{{ msg_dry_alexa }}'
+                        target:
+                        - '{{ _player }}'
+                    - choose:
+                      - conditions:
+                        - condition: template
+                          value_template: '{{ alexa_volume_temp_enabled | bool }}'
+                        sequence:
+                        - delay:
+                            seconds: '{{ alexa_volume_restore_delay | int(2) }}'
+                        - service: media_player.volume_set
+                          data:
+                            entity_id: '{{ _player }}'
+                            volume_level: '{{ _prev_vol }}'
+            - choose:
               - conditions:
-                  - condition: template
-                    value_template: "{{ persistent_enabled_ok and not (in_quiet_persistent | bool) }}"
+                - condition: template
+                  value_template: '{{ persistent_enabled_dry and not (in_quiet_persistent
+                    | bool) }}'
                 sequence:
-                  - service: persistent_notification.create
-                    data:
-                      title: "{{ title_ok }}"
-                      message: "{{ msg_ok_common }}"
-
-          - choose:
+                - service: persistent_notification.create
+                  data:
+                    title: '{{ title_dry }}'
+                    message: '{{ msg_dry_common }}'
+            - choose:
               - conditions:
-                  - condition: template
-                    value_template: "{{ mobile_enabled_ok and mobile_notify_service != 'none' and not (in_quiet_mobile | bool) }}"
+                - condition: template
+                  value_template: '{{ mobile_enabled_dry and mobile_notify_service
+                    != ''none'' and not (in_quiet_mobile | bool) }}'
                 sequence:
-                  - service: "{{ mobile_notify_service }}"
-                    data:
-                      title: "{{ title_ok }}"
-                      message: "{{ msg_ok_common }}"
+                - service: '{{ mobile_notify_service }}'
+                  data:
+                    title: '{{ title_dry }}'
+                    message: '{{ msg_dry_common }}'
+            - delay:
+                minutes: '{{ repeat_interval | int(30) }}'
+  - conditions:
+    - condition: trigger
+      id: ok
+    - condition: template
+      value_template: '{{ ok_info_enabled }}'
+    sequence:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ alexa_enabled_ok and person_in_zone and not (in_quiet_alexa
+            | bool) }}'
+        sequence:
+        - repeat:
+            for_each: '{{ alexa_targets }}'
+            sequence:
+            - variables:
+                _player: '{{ repeat.item }}'
+                _prev_vol: '{{ state_attr(_player, ''volume_level'') | float(0.3)
+                  }}'
+            - choose:
+              - conditions:
+                - condition: template
+                  value_template: '{{ alexa_volume_temp_enabled | bool }}'
+                sequence:
+                - service: media_player.volume_set
+                  data:
+                    entity_id: '{{ _player }}'
+                    volume_level: '{{ alexa_volume_level | float(0.35) }}'
+            - service: notify.alexa_media
+              data:
+                title: '{{ title_ok }}'
+                message: '{{ msg_ok_alexa }}'
+                target:
+                - '{{ _player }}'
+            - choose:
+              - conditions:
+                - condition: template
+                  value_template: '{{ alexa_volume_temp_enabled | bool }}'
+                sequence:
+                - delay:
+                    seconds: '{{ alexa_volume_restore_delay | int(2) }}'
+                - service: media_player.volume_set
+                  data:
+                    entity_id: '{{ _player }}'
+                    volume_level: '{{ _prev_vol }}'
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ persistent_enabled_ok and not (in_quiet_persistent |
+            bool) }}'
+        sequence:
+        - service: persistent_notification.create
+          data:
+            title: '{{ title_ok }}'
+            message: '{{ msg_ok_common }}'
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ mobile_enabled_ok and mobile_notify_service != ''none''
+            and not (in_quiet_mobile | bool) }}'
+        sequence:
+        - service: '{{ mobile_notify_service }}'
+          data:
+            title: '{{ title_ok }}'
+            message: '{{ msg_ok_common }}'
