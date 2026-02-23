@@ -1,0 +1,688 @@
+blueprint:
+  name: "🌱 Bodenfeuchte Alarm System"
+  description: |
+    # 🌱 Bodenfeuchte Alarm System
+    **Version 4.5**
+
+    Intelligente Pflanzenüberwachung – flexibel, zonenbasiert und vollständig konfigurierbar.
+
+    Überwacht einen Bodenfeuchte-Sensor (numerisch). Bei Unterschreiten eines Grenzwerts wird (optional wiederholt) per **Alexa (notify.alexa_media)**, **Anhaltende Benachrichtigung** und/oder **Mobile App** benachrichtigt.
+
+    Optional kann eine **„Feuchtigkeit wieder OK“-Info** gesendet werden, sobald der Wert stabil über dem Grenzwert liegt.
+
+    Alexa-Durchsagen erfolgen nur, wenn sich eine ausgewählte **Person oder ein Device Tracker in einer frei wählbaren Zone** befindet.
+
+    Die Nachtsteuerung wurde erweitert: **Getrennte Nachtmodi für Alexa, Mobile App und Anhaltende Benachrichtigung** ermöglichen maximale Flexibilität.
+
+    ---
+
+    <details>
+    <summary><b>🌵 Trocken-Alarm</b></summary>
+
+    - Frei definierbarer Grenzwert
+    - Hysterese gegen Sensor-Flattern
+    - Verzögerung vor Auslösung
+    - Wiederholung optional (5–180 Minuten)
+    - Cooldown-Schutz gegen Mehrfachauslösung
+    - Optimierung: Wiederhol-Loop „schläft“, wenn aktuell kein Kanal senden darf
+
+    </details>
+
+    <details>
+    <summary><b>🌿 OK-Rückmeldung</b></summary>
+
+    - Optional aktivierbar
+    - Separate Steuerung je Benachrichtigungskanal
+    - Verzögerung gegen direktes Zurückspringen
+
+    </details>
+
+    <details>
+    <summary><b>🔔 Benachrichtigungskanäle</b></summary>
+
+    - Alexa Trocken EIN/AUS
+    - Alexa OK EIN/AUS
+    - Anhaltende Benachrichtigung Trocken EIN/AUS
+    - Anhaltende Benachrichtigung OK EIN/AUS
+    - Mobile Trocken EIN/AUS
+    - Mobile OK EIN/AUS
+    - Mobile Geräteauswahl per Dropdown (mobile_app)
+
+    </details>
+
+    <details>
+    <summary><b>📍 Zonen- & Anwesenheitslogik</b></summary>
+
+    - Alexa nur bei Anwesenheit
+    - Frei wählbare Zone
+    - Unterstützt Person & Device Tracker
+
+    </details>
+
+    <details>
+    <summary><b>🌙 Erweiterte Nachtmodi</b></summary>
+
+    - Separater Nachtmodus für Alexa
+    - Separater Nachtmodus für Mobile App
+    - Separater Nachtmodus für Anhaltende Benachrichtigung
+    - Start- und Endzeit je Kanal definierbar
+    - Funktioniert über Mitternacht hinweg
+
+    </details>
+
+    ---
+
+    **Autor x1marc**
+  domain: automation
+
+  input:
+    # =========================
+    # 1) SENSOR & SCHWELLWERTE
+    # =========================
+    moisture_sensor:
+      name: Bodenfeuchte-Sensor
+      selector:
+        entity:
+          domain: sensor
+
+    threshold_low:
+      name: Grenzwert (zu trocken)
+      description: Unterhalb dieses Wertes wird ein Trocken-Alarm ausgelöst.
+      default: 50
+      selector:
+        number:
+          min: 0
+          max: 100
+          step: 1
+          mode: slider
+          unit_of_measurement: "%"
+
+    hysteresis:
+      name: Hysterese (OK ab Grenzwert + Hysterese)
+      default: 3
+      selector:
+        number:
+          min: 0
+          max: 20
+          step: 1
+          unit_of_measurement: "%"
+
+    # =========================
+    # 2) ZEITEN / LOGIK
+    # =========================
+    below_for:
+      name: Muss wie lange trocken sein, bevor Alarm?
+      default:
+        minutes: 5
+      selector:
+        duration:
+
+    ok_for:
+      name: Muss wie lange OK sein, bevor OK-Info?
+      default:
+        minutes: 2
+      selector:
+        duration:
+
+    repeat_mode:
+      name: Trocken-Alarm senden
+      default: repeat
+      selector:
+        select:
+          options:
+            - label: "Nur einmal"
+              value: once
+            - label: "Wiederholen"
+              value: repeat
+
+    repeat_interval:
+      name: Wiederholintervall (nur bei 'Wiederholen')
+      default: 30
+      selector:
+        number:
+          min: 5
+          max: 180
+          step: 2
+          unit_of_measurement: "min"
+
+    cooldown_minutes:
+      name: Cooldown / Sperrzeit (Minuten)
+      description: Verhindert erneutes Auslösen kurz hintereinander (z.B. Sensor-Spikes).
+      default: 30
+      selector:
+        number:
+          min: 0
+          max: 360
+          step: 2
+          unit_of_measurement: "min"
+
+    # =========================
+    # 3) TEXTE
+    # =========================
+    title_dry:
+      name: Titel (Trocken) – Mobile/Anhaltende Benachrichtgung
+      default: "🌱 Bodenfeuchte Warnung"
+      selector:
+        text:
+
+    message_prefix_dry:
+      name: Nachricht (Trocken) – Mobile/Anhaltende Benachrichtgung
+      default: "Die Pflanze ist zu trocken."
+      selector:
+        text:
+
+    alexa_message_dry:
+      name: Alexa Nachricht (Trocken)
+      default: "Achtung: Die Pflanze braucht Wasser."
+      selector:
+        text:
+
+    ok_info_enabled:
+      name: „Wieder OK“-Info aktiv?
+      default: true
+      selector:
+        boolean:
+
+    title_ok:
+      name: Titel (OK) – Mobile/Anhaltende Benachrichtgung
+      default: "🌿 Bodenfeuchte wieder OK"
+      selector:
+        text:
+
+    message_prefix_ok:
+      name: Nachricht (OK) – Mobile/Anhaltende Benachrichtgung
+      default: "Danke! Die Feuchtigkeit ist wieder im grünen Bereich."
+      selector:
+        text:
+
+    alexa_message_ok:
+      name: Alexa Nachricht (OK)
+      default: "Alles gut: Die Bodenfeuchte ist wieder okay."
+      selector:
+        text:
+
+    # =========================
+    # 4) ALEXA + ZONE
+    # =========================
+    alexa_enabled_dry:
+      name: Alexa Trocken-Alarm aktiv?
+      default: true
+      selector:
+        boolean:
+
+    alexa_enabled_ok:
+      name: Alexa OK-Info aktiv?
+      default: true
+      selector:
+        boolean:
+
+    alexa_targets:
+      name: Alexa Zielgeräte (media_player)
+      selector:
+        entity:
+          domain: media_player
+          multiple: true
+
+    presence_entity:
+      name: Person oder Device Tracker (für Zonenprüfung)
+      selector:
+        entity:
+          domain:
+            - person
+            - device_tracker
+
+    presence_zone:
+      name: Zone für Alexa-Ausgabe
+      default: zone.home
+      selector:
+        entity:
+          domain: zone
+
+    # =========================
+    # 5) PERSISTENT
+    # =========================
+    persistent_enabled_dry:
+      name: Anhaltende Benachrichtigung (Trocken) aktiv?
+      default: true
+      selector:
+        boolean:
+
+    persistent_enabled_ok:
+      name: Anhaltende Benachrichtigung (OK) aktiv?
+      default: true
+      selector:
+        boolean:
+
+    # =========================
+    # 6) MOBILE
+    # =========================
+    mobile_enabled_dry:
+      name: Mobile Benachrichtigung (Trocken) aktiv?
+      default: false
+      selector:
+        boolean:
+
+    mobile_enabled_ok:
+      name: Mobile Benachrichtigung (OK) aktiv?
+      default: false
+      selector:
+        boolean:
+
+    mobile_device:
+      name: Mobile Gerät (Dropdown)
+      description: Gerät aus der Home Assistant Mobile App Integration (mobile_app).
+      selector:
+        device:
+          integration: mobile_app
+          multiple: false
+
+    # =========================
+    # 7) NACHTMODUS JE KANAL
+    # =========================
+    alexa_quiet_enabled:
+      name: Nachtmodus Alexa aktiv?
+      default: true
+      selector:
+        boolean:
+
+    alexa_quiet_start:
+      name: Nachtmodus Alexa Start
+      default: "20:00:00"
+      selector:
+        time:
+
+    alexa_quiet_end:
+      name: Nachtmodus Alexa Ende
+      default: "08:00:00"
+      selector:
+        time:
+
+    mobile_quiet_enabled:
+      name: Nachtmodus Mobile aktiv?
+      default: false
+      selector:
+        boolean:
+
+    mobile_quiet_start:
+      name: Nachtmodus Mobile Start
+      default: "22:00:00"
+      selector:
+        time:
+
+    mobile_quiet_end:
+      name: Nachtmodus Mobile Ende
+      default: "07:00:00"
+      selector:
+        time:
+
+    persistent_quiet_enabled:
+      name: Nachtmodus Anhaltende Benachrichtigung aktiv?
+      default: false
+      selector:
+        boolean:
+
+    persistent_quiet_start:
+      name: Nachtmodus Anhaltende Benachrichtgung Start
+      default: "22:00:00"
+      selector:
+        time:
+
+    persistent_quiet_end:
+      name: Nachtmodus Anhaltende Benachrichtgung Ende
+      default: "07:00:00"
+      selector:
+        time:
+
+mode: single
+max_exceeded: silent
+
+variables:
+  sensor: !input moisture_sensor
+  thr: !input threshold_low
+  hyst: !input hysteresis
+  thr_ok: "{{ (thr | float(0)) + (hyst | float(0)) }}"
+
+  repeat_mode: !input repeat_mode
+  repeat_interval: !input repeat_interval
+  cooldown_minutes: !input cooldown_minutes
+
+  # Texte
+  title_dry: !input title_dry
+  message_prefix_dry: !input message_prefix_dry
+  alexa_message_dry: !input alexa_message_dry
+
+  ok_info_enabled: !input ok_info_enabled
+  title_ok: !input title_ok
+  message_prefix_ok: !input message_prefix_ok
+  alexa_message_ok: !input alexa_message_ok
+
+  # Kanäle an/aus
+  alexa_enabled_dry: !input alexa_enabled_dry
+  alexa_enabled_ok: !input alexa_enabled_ok
+  persistent_enabled_dry: !input persistent_enabled_dry
+  persistent_enabled_ok: !input persistent_enabled_ok
+  mobile_enabled_dry: !input mobile_enabled_dry
+  mobile_enabled_ok: !input mobile_enabled_ok
+
+  # Alexa target & Zone
+  alexa_targets: !input alexa_targets
+  presence_entity: !input presence_entity
+  presence_zone: !input presence_zone
+
+  # Mobile device
+  mobile_device: !input mobile_device
+
+  # Nachtmodus Inputs
+  alexa_quiet_enabled: !input alexa_quiet_enabled
+  alexa_quiet_start: !input alexa_quiet_start
+  alexa_quiet_end: !input alexa_quiet_end
+
+  mobile_quiet_enabled: !input mobile_quiet_enabled
+  mobile_quiet_start: !input mobile_quiet_start
+  mobile_quiet_end: !input mobile_quiet_end
+
+  persistent_quiet_enabled: !input persistent_quiet_enabled
+  persistent_quiet_start: !input persistent_quiet_start
+  persistent_quiet_end: !input persistent_quiet_end
+
+  # Werte / Nachrichten
+  sensor_name: "{{ state_attr(sensor, 'friendly_name') or sensor }}"
+  sensor_value: "{{ states(sensor) | float(0) }}"
+
+  msg_dry_common: >-
+    {{ message_prefix_dry }}
+    Sensor: {{ sensor_name }} = {{ sensor_value }} (Grenzwert < {{ thr }}, OK ab {{ thr_ok }})
+
+  msg_ok_common: >-
+    {{ message_prefix_ok }}
+    Sensor: {{ sensor_name }} = {{ sensor_value }} (OK ab {{ thr_ok }})
+
+  msg_dry_alexa: >-
+    {{ alexa_message_dry }}
+    ({{ sensor_name }}: {{ sensor_value }})
+
+  msg_ok_alexa: >-
+    {{ alexa_message_ok }}
+    ({{ sensor_name }}: {{ sensor_value }})
+
+  # Mobile notify service aus Gerätename: notify.mobile_app_<slug>
+  mobile_notify_service: >-
+    {% set dev_name = device_attr(mobile_device, 'name') %}
+    {% if dev_name %}
+      notify.mobile_app_{{ dev_name | slugify }}
+    {% else %}
+      none
+    {% endif %}
+
+  # Zone-Check (z.B. zone.garten -> "garten"; person state muss "garten" sein)
+  zone_slug: "{{ presence_zone.split('.')[-1] }}"
+  person_in_zone: "{{ states(presence_entity) == zone_slug }}"
+
+  # Cooldown (Start der Automation) – wird nur für Trocken genutzt (siehe action)
+  cooldown_ok: >-
+    {% if cooldown_minutes | int(0) == 0 %}
+      true
+    {% else %}
+      {% set lt = this.attributes.last_triggered %}
+      {% if lt is none %}
+        true
+      {% else %}
+        {{ (now() - lt).total_seconds() > (cooldown_minutes | int(0) * 60) }}
+      {% endif %}
+    {% endif %}
+
+  # Nachtmodus-Berechnungen (je Kanal; über Mitternacht möglich)
+  in_quiet_alexa: >-
+    {% if not alexa_quiet_enabled %}
+      false
+    {% else %}
+      {% set s = today_at(alexa_quiet_start) %}
+      {% set e = today_at(alexa_quiet_end) %}
+      {% if e <= s %}
+        {{ now() >= s or now() < e }}
+      {% else %}
+        {{ now() >= s and now() < e }}
+      {% endif %}
+    {% endif %}
+
+  in_quiet_mobile: >-
+    {% if not mobile_quiet_enabled %}
+      false
+    {% else %}
+      {% set s = today_at(mobile_quiet_start) %}
+      {% set e = today_at(mobile_quiet_end) %}
+      {% if e <= s %}
+        {{ now() >= s or now() < e }}
+      {% else %}
+        {{ now() >= s and now() < e }}
+      {% endif %}
+    {% endif %}
+
+  in_quiet_persistent: >-
+    {% if not persistent_quiet_enabled %}
+      false
+    {% else %}
+      {% set s = today_at(persistent_quiet_start) %}
+      {% set e = today_at(persistent_quiet_end) %}
+      {% if e <= s %}
+        {{ now() >= s or now() < e }}
+      {% else %}
+        {{ now() >= s and now() < e }}
+      {% endif %}
+    {% endif %}
+
+  # ✅ Optimierung:
+  # 1) Gibt es überhaupt aktivierte Kanäle für Trocken?
+  any_dry_channel_enabled: >-
+    {{
+      (alexa_enabled_dry | bool)
+      or (persistent_enabled_dry | bool)
+      or (mobile_enabled_dry | bool)
+    }}
+
+  # 2) Darf aktuell irgendein Kanal den Trocken-Alarm senden?
+  can_send_dry_now: >-
+    {{
+      (
+        (alexa_enabled_dry and person_in_zone and not (in_quiet_alexa | bool))
+        or (persistent_enabled_dry and not (in_quiet_persistent | bool))
+        or (mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile | bool))
+      )
+    }}
+
+trigger:
+  - platform: template
+    id: dry
+    value_template: "{{ states(sensor) | float(999) < (thr | float(0)) }}"
+    for: !input below_for
+
+  - platform: template
+    id: ok
+    value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
+    for: !input ok_for
+
+condition: []
+
+action:
+  - choose:
+      # =========================
+      # TROCKEN-ALARM
+      # =========================
+      - conditions:
+          - condition: trigger
+            id: dry
+        sequence:
+          # ✅ Cooldown nur für Trocken
+          - condition: template
+            value_template: "{{ cooldown_ok | bool }}"
+
+          - choose:
+              # --- NUR EINMAL ---
+              - conditions:
+                  - condition: template
+                    value_template: "{{ repeat_mode == 'once' }}"
+                sequence:
+                  # Alexa
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ alexa_enabled_dry and person_in_zone and not (in_quiet_alexa | bool) }}"
+                        sequence:
+                          - service: notify.alexa_media
+                            data:
+                              title: "{{ title_dry }}"
+                              message: "{{ msg_dry_alexa }}"
+                              target: "{{ alexa_targets }}"
+
+                  # Persistent
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ persistent_enabled_dry and not (in_quiet_persistent | bool) }}"
+                        sequence:
+                          - service: persistent_notification.create
+                            data:
+                              title: "{{ title_dry }}"
+                              message: "{{ msg_dry_common }}"
+
+                  # Mobile
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile | bool) }}"
+                        sequence:
+                          - service: "{{ mobile_notify_service }}"
+                            data:
+                              title: "{{ title_dry }}"
+                              message: "{{ msg_dry_common }}"
+
+                  # warten bis OK (damit "once" nicht neu startet bei kurzem Flattern)
+                  - wait_for_trigger:
+                      - platform: template
+                        value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
+                    timeout:
+                      hours: 24
+                    continue_on_timeout: true
+
+              # --- WIEDERHOLEN (optimiert) ---
+              - conditions:
+                  - condition: template
+                    value_template: "{{ repeat_mode == 'repeat' }}"
+                sequence:
+                  - repeat:
+                      while:
+                        - condition: template
+                          value_template: "{{ states(sensor) | float(999) < (thr | float(0)) }}"
+                      sequence:
+                        # ✅ Optimierung:
+                        # Wenn es keine aktiven Trocken-Kanäle gibt -> nichts tun, aber Loop sauber schlafen lassen
+                        - choose:
+                            - conditions:
+                                - condition: template
+                                  value_template: "{{ not (any_dry_channel_enabled | bool) }}"
+                              sequence:
+                                - wait_for_trigger:
+                                    - platform: template
+                                      value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
+                                  timeout:
+                                    hours: 12
+                                  continue_on_timeout: true
+
+                        # Wenn Kanäle existieren, aber aktuell keiner senden darf (Nachtmodus/Zone) -> schlafen bis wieder möglich oder OK
+                        - choose:
+                            - conditions:
+                                - condition: template
+                                  value_template: "{{ (any_dry_channel_enabled | bool) and not (can_send_dry_now | bool) }}"
+                              sequence:
+                                - wait_for_trigger:
+                                    - platform: template
+                                      value_template: "{{ can_send_dry_now | bool }}"
+                                    - platform: template
+                                      value_template: "{{ states(sensor) | float(0) >= (thr_ok | float(0)) }}"
+                                  timeout:
+                                    hours: 12
+                                  continue_on_timeout: true
+
+                        # Wenn nach dem Warten OK: Loop endet gleich, hier nichts mehr senden
+                        - condition: template
+                          value_template: "{{ states(sensor) | float(999) < (thr | float(0)) }}"
+
+                        # Alexa
+                        - choose:
+                            - conditions:
+                                - condition: template
+                                  value_template: "{{ alexa_enabled_dry and person_in_zone and not (in_quiet_alexa | bool) }}"
+                              sequence:
+                                - service: notify.alexa_media
+                                  data:
+                                    title: "{{ title_dry }}"
+                                    message: "{{ msg_dry_alexa }}"
+                                    target: "{{ alexa_targets }}"
+
+                        # Persistent
+                        - choose:
+                            - conditions:
+                                - condition: template
+                                  value_template: "{{ persistent_enabled_dry and not (in_quiet_persistent | bool) }}"
+                              sequence:
+                                - service: persistent_notification.create
+                                  data:
+                                    title: "{{ title_dry }}"
+                                    message: "{{ msg_dry_common }}"
+
+                        # Mobile
+                        - choose:
+                            - conditions:
+                                - condition: template
+                                  value_template: "{{ mobile_enabled_dry and mobile_notify_service != 'none' and not (in_quiet_mobile | bool) }}"
+                              sequence:
+                                - service: "{{ mobile_notify_service }}"
+                                  data:
+                                    title: "{{ title_dry }}"
+                                    message: "{{ msg_dry_common }}"
+
+                        - delay:
+                            minutes: "{{ repeat_interval | int(30) }}"
+
+      # =========================
+      # OK-INFO
+      # =========================
+      - conditions:
+          - condition: trigger
+            id: ok
+          - condition: template
+            value_template: "{{ ok_info_enabled }}"
+        sequence:
+          # Alexa OK
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ alexa_enabled_ok and person_in_zone and not (in_quiet_alexa | bool) }}"
+                sequence:
+                  - service: notify.alexa_media
+                    data:
+                      title: "{{ title_ok }}"
+                      message: "{{ msg_ok_alexa }}"
+                      target: "{{ alexa_targets }}"
+
+          # Persistent OK
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ persistent_enabled_ok and not (in_quiet_persistent | bool) }}"
+                sequence:
+                  - service: persistent_notification.create
+                    data:
+                      title: "{{ title_ok }}"
+                      message: "{{ msg_ok_common }}"
+
+          # Mobile OK
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ mobile_enabled_ok and mobile_notify_service != 'none' and not (in_quiet_mobile | bool) }}"
+                sequence:
+                  - service: "{{ mobile_notify_service }}"
+                    data:
+                      title: "{{ title_ok }}"
+                      message: "{{ msg_ok_common }}"
