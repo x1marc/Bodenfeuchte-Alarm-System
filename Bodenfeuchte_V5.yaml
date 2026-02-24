@@ -98,7 +98,7 @@ blueprint:
       name: Cooldown / Sperrzeit (Minuten)
       description: Verhindert erneutes Auslösen kurz hintereinander. Gilt nur fuer
         Trocken-Alarm.
-      default: 29
+      default: 30
       selector:
         number:
           min: 0.0
@@ -239,7 +239,7 @@ blueprint:
         boolean: {}
     mobile_device:
       name: Mobile Gerät
-      description: Gerät aus der Home Assistant Mobile App Integration (mobile_app).
+      description: Gerät aus der Home Assistant Mobile App Integration.
       selector:
         device:
           integration: mobile_app
