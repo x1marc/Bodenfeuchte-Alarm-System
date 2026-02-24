@@ -1,6 +1,6 @@
 blueprint:
   name: "\U0001F331 Bodenfeuchte Alarm System"
-  description: "# \U0001F331 Bodenfeuchte Alarm System\n**Version 1.0**\n\nIntelligente
+  description: "# \U0001F331 Bodenfeuchte Alarm System\n**Version 1.1**\n\nIntelligente
     Pflanzenüberwachung – flexibel, zonenbasiert und vollständig konfigurierbar.\n\nÜberwacht
     einen Bodenfeuchte-Sensor (numerisch). Bei Unterschreiten eines Grenzwerts wird
     (optional wiederholt) per **Alexa (notify.alexa_media)**, **Anhaltende Benachrichtigung**
@@ -98,7 +98,7 @@ blueprint:
       name: Cooldown / Sperrzeit (Minuten)
       description: Verhindert erneutes Auslösen kurz hintereinander. Gilt nur fuer
         Trocken-Alarm.
-      default: 30
+      default: 29
       selector:
         number:
           min: 0.0
@@ -209,7 +209,7 @@ blueprint:
     alexa_volume_restore_delay:
       name: Wartezeit bis Restore (Sekunden)
       description: Kurze Verzögerung, damit die Durchsage nicht abgeschnitten wird.
-      default: 2
+      default: 10
       selector:
         number:
           min: 0.0
@@ -289,7 +289,7 @@ blueprint:
       default: 07:00:00
       selector:
         time: {}
-  source_url: https://github.com/x1marc/Bodenfeuchte-Alarm-System/blob/main/Bodenfeuchte_V5.yaml
+  source_url: https://github.com/x1marc/Bodenfeuchte-Alarm-System/blob/main/Bodenfeuchte.yaml
 mode: restart
 max_exceeded: silent
 variables:
@@ -332,11 +332,11 @@ variables:
   sensor_name: '{{ state_attr(sensor, ''friendly_name'') or sensor }}'
   sensor_value: '{{ states(sensor) | float(0) }}'
   msg_dry_common: '{{ message_prefix_dry }} Sensor: {{ sensor_name }} = {{ sensor_value
-    }} (Grenzwert < {{ thr }}, OK ab {{ thr_ok }})'
+    }}% (Grenzwert < {{ thr }} %, OK ab {{ thr_ok }}%)'
   msg_ok_common: '{{ message_prefix_ok }} Sensor: {{ sensor_name }} = {{ sensor_value
-    }} (OK ab {{ thr_ok }})'
-  msg_dry_alexa: '{{ alexa_message_dry }} ({{ sensor_name }}: {{ sensor_value }})'
-  msg_ok_alexa: '{{ alexa_message_ok }} ({{ sensor_name }}: {{ sensor_value }})'
+    }}% (OK ab {{ thr_ok }}%)'
+  msg_dry_alexa: '{{ alexa_message_dry }} ({{ sensor_name }}: {{ sensor_value }} Prozent)'
+  msg_ok_alexa: '{{ alexa_message_ok }} ({{ sensor_name }}: {{ sensor_value }} Prozent)'
   mobile_notify_service: "{% set dev_name = device_attr(mobile_device, 'name') %}
     {% if dev_name %}\n  notify.mobile_app_{{ dev_name | slugify }}\n{% else %}\n
     \ none\n{% endif %}"
