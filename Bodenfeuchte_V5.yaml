@@ -187,7 +187,7 @@ blueprint:
         entity:
           domain:
           - zone
-          multiple: false
+          multiple: true
           reorder: false
     alexa_volume_temp_enabled:
       name: Alexa Lautstärke temporär setzen?
