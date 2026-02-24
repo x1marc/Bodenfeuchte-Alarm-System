@@ -238,12 +238,12 @@ blueprint:
       selector:
         boolean: {}
     mobile_device:
-      name: Mobile Gerät (Dropdown)
+      name: Mobile Gerät
       description: Gerät aus der Home Assistant Mobile App Integration (mobile_app).
       selector:
         device:
           integration: mobile_app
-          multiple: false
+          multiple: true
     alexa_quiet_enabled:
       name: Nachtmodus Alexa aktiv?
       default: true
