@@ -178,7 +178,7 @@ blueprint:
           domain:
           - person
           - device_tracker
-          multiple: false
+          multiple: true
           reorder: false
     presence_zone:
       name: Zone fuer Alexa-Ausgabe
